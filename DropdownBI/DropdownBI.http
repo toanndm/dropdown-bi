@@ -1,0 +1,6 @@
+@DropdownBI_HostAddress = http://localhost:5107
+
+GET {{DropdownBI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
