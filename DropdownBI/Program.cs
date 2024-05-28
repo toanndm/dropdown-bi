@@ -8,7 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 string? connectionString = builder.Configuration.GetConnectionString("Postgresql");
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(connectionString));
-builder.Services.AddScoped<ICsvService, CsvService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyCors",
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +34,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors("MyCors");
 
 app.UseHttpsRedirection();
 
