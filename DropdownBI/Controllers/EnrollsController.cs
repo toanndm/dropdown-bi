@@ -32,17 +32,14 @@ namespace DropdownBI.Controllers
                 var courses = _context.Courses;
                 Course? course = courses.FirstOrDefault(c => c.Id == id);
 
-                string course_id = string.Empty;
+                string course_id = "No";
 
                 if (course != null)
                 {
                     course_id = course.CourseId!;
                 }
 
-                if (course_id != string.Empty)
-                {
-                    query = query.Where(e => e.CourseId == course_id);
-                }
+                query = query.Where(e => e.CourseId == course_id);
 
                 var totalItems = await query.CountAsync();
                 var enrollments = await query
