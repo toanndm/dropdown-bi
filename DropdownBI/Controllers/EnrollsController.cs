@@ -16,7 +16,7 @@ namespace DropdownBI.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult> GetEnrollments(string course_id = "", int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult> GetEnrollments(int id = 0, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
@@ -28,6 +28,16 @@ namespace DropdownBI.Controllers
                 var query = _context.Enrolls
                                    .Include(e => e.User)
                                    .AsQueryable();
+
+                var courses = _context.Courses;
+                Course? course = courses.FirstOrDefault(c => c.Id == id);
+
+                string course_id = string.Empty;
+
+                if (course != null)
+                {
+                    course_id = course.CourseId!;
+                }
 
                 if (course_id != string.Empty)
                 {
